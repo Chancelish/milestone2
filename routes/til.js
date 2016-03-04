@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
   res.render('til/index', { title: 'Today I Learned', entries: entries});
 });
 
-router.get/new, function(req, res, next) {
+router.get('/new', function(req, res, next) {
 	res.render('entries/new', {title: "Create new entry"});
 });
 
