@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var entries = [
-  {title:"Node JS", body: "Node.js is really powerful, but, it feels like it was created in a hury. I'm not sure what all the operations are.", created_at: "3/3/2016"},
+  {slug:"Node JS", body: "Node.js is really powerful, but, it feels like it was created in a hury. I'm not sure what all the operations are.", created_at: "3/3/2016"},
   
 ];
 
