@@ -11,4 +11,21 @@ router.get('/', function(req, res, next) {
   res.render('til/index', { title: 'Today I Learned', entries: entries});
 });
 
+router.get/new, function(req, res, next) {
+	res.render('entries/new', {title: "Create new entry"});
+});
+
+router.post('/', function(req, res, next) {
+  entries.push(req.body);
+  res.render('entries/index', { title: 'Blog', entries: entries });
+});
+
+
+/**
+I don't understand what this function is doing, I literally copied from the example.
+*/
+router.get('/:id', function(req, res, next) {
+  res.render('entries/entry', {title: "a entry", entry: entries[req.params.id]});
+});
+
 module.exports = router;
