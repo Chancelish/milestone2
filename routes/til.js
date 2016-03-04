@@ -40,7 +40,7 @@ router.post('/:id', function(req, res, next) {
 });
 
 router.get('/:id/delete', function(req, res, next) {
-  var id = req.params.id
+  var id = req.params.id;
   entries = entries.slice(0,id).concat(entries.slice(id+1, entries.length));
   res.render('til/index', { title: 'Today I Learned', entries: entries });
 });
@@ -49,7 +49,7 @@ router.get('/:id/delete', function(req, res, next) {
 I don't understand what this function is doing, I literally copied from the example.
 */
 router.get('/:id', function(req, res, next) {
-  res.render('til/til', {title: "an entry", entry: entries[req.params.id]});
+  res.render('til/til', {title: "a entry", entry: entries[req.params.id]});
 });
 
 module.exports = router;
