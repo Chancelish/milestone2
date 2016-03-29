@@ -22,31 +22,24 @@ router.get('/new', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
 	req.db.driver.execQuery(
-		"INSERT INTO todayIlearned (slug,body) VALUES'" + req.body.slog + "','" + req.body.body + "');",
+		"INSERT INTO todayIlearned (slug,body) VALUES ('?','?');",
+		[req.body.slug, req.body.body],
 		function(anErorr, data){
 			if(anErorr) {
 				console.log(anError)
 			}
-			res.render('til/index', { title: 'Today I Learned', entries: data});
+			res.redirect(303, '/til/index');
 		}
 	);
 	
-	req.db.driver.execQuery(
-		"SELECT * FROM todayIlearned;", 
-		function(anErorr, data){
-			if(anErorr) {
-				console.log(anError)
-			}
-			res.render('til/index', { title: 'Today I Learned', entries: data});
-		}
-	);
 });
 
 //UPDATE
 router.get('/:id/edit', function(req, res, next) {
   
 	req.db.driver.execQuery(
-		"UPDATE todayIlearned SLUG id='" + req.body.slog + "',body='" + req.body.body + "' WHERE id=" + parseInt(req.params.id) + ";",
+		"SELECT * FROM todayIlearned WHERE id=?;",
+		[arseInt(req.params.id)],
 		function(anError, data) {
 			if(anError) {
 				consle.log(anError);
