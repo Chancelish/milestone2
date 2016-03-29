@@ -1,14 +1,19 @@
 var express = require('express');
 var router = express.Router();
 
-var entries = [
-  {slug:"Node JS", body: "Node.js is really powerful, but, it feels like it was created in a hury. I'm not sure what all the operations are.", created_at: "3/3/2016"},
-  
-];
+var entries = [];
 
 /* GET til listing. */
 router.get('/', function(req, res, next) {
-  res.render('til/index', { title: 'Today I Learned', entries: entries});
+	req.db.driver.execQuery(
+		"SELECT * FROM todayIlearned;", 
+		function(anErorr, data){
+			if(anErorr) {
+				console.log(anError)
+			}
+			res.render('til/index', { title: 'Today I Learned', entries: data});
+		}
+	);
 });
 
 router.get('/new', function(req, res, next) {
@@ -16,18 +21,45 @@ router.get('/new', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  entries.push(req.body);
-  res.render('til/index', { title: 'Today I Learned', entries: entries });
+	req.db.driver.execQuery(
+		"INSERT INTO todayIlearned (slug,body) VALUES'" + req.body.slog + "','" + req.body.body + "');",
+		function(anErorr, data){
+			if(anErorr) {
+				console.log(anError)
+			}
+			res.render('til/index', { title: 'Today I Learned', entries: data});
+		}
+	);
+	
+	req.db.driver.execQuery(
+		"SELECT * FROM todayIlearned;", 
+		function(anErorr, data){
+			if(anErorr) {
+				console.log(anError)
+			}
+			res.render('til/index', { title: 'Today I Learned', entries: data});
+		}
+	);
 });
 
-
+//UPDATE
 router.get('/:id/edit', function(req, res, next) {
-  res.render('til/update',
-  {
-    title: 'Update an entry',
-    id: req.params.id,
-    entry: entries[req.params.id]
-  });
+  
+	req.db.driver.execQuery(
+		"UPDATE todayIlearned SLUG id='" + req.body.slog + "',body='" + req.body.body + "' WHERE id=" + parseInt(req.params.id) + ";",
+		function(anError, data) {
+			if(anError) {
+				consle.log(anError);
+			}
+			
+			res.render('til/update',
+			{
+				title: 'Update an entry',
+				entry: data[0]
+			});
+		}
+	);
+	
 });
 
 router.post('/:id', function(req, res, next) {
@@ -39,17 +71,43 @@ router.post('/:id', function(req, res, next) {
   });
 });
 
+//DELETE
 router.get('/:id/delete', function(req, res, next) {
-  var id = req.params.id;
-  entries = entries.slice(0,id).concat(entries.slice(id+1, entries.length));
-  res.render('til/index', { title: 'Today I Learned', entries: entries });
+  req.db.driver.execQuery(
+		'DELETE * FROM todayIlearned WHERE id=' + parseInt(req.params.id) + ';',
+		function(anError, data) {
+			if(anError) {
+				consle.log(anError);
+			}
+			
+		}
+		
+	);
+	req.db.driver.execQuery(
+		"SELECT * FROM todayIlearned;", 
+		function(anErorr, data){
+			if(anErorr) {
+				console.log(anError)
+			}
+			res.render('til/index', { title: 'Today I Learned', entries: data});
+		}
+	);
+  
 });
 
-/**
-I don't understand what this function is doing, I literally copied from the example.
-*/
+//
 router.get('/:id', function(req, res, next) {
-  res.render('til/til', {title: "a entry", entry: entries[req.params.id]});
+	req.db.driver.execQuery(
+		'SELECT * FROM todayIlearned WHERE id=' + parseInt(req.params.id) + ';',
+		function(anError, data) {
+			if(anError) {
+				consle.log(anError);
+			}
+			res.render('til/til', {title: "a entry", entry: data[0]});
+		}
+	);
+	
+	
 });
 
 module.exports = router;
