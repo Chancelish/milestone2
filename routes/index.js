@@ -6,7 +6,7 @@ var crypto = require('crypto');
 router.get('/', function(req, res, next) {
 	//res.cookie("Hello", "World");
 	//console.log(req.cookies);
-	var name = req.cookie.username || 'Anonymous';
+	var name = req.cookies.username || 'Anonymous';
 	res.render('index', { title: 'Today I Learned' , name : name});
 });
 
