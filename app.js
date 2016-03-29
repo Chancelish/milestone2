@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 var orm = require('orm'); 
-var dbstring = "postegres://postgres:sm4shW0W@localhost/todayIlearned";
+var dbstring = "postgres://postgres:sm4shW0W@localhost/todayIlearned";
 var mystring = process.env.DATABSE_URL || dbstring;
 app.use(orm.express(mystring, {
     define: function (db, models, next) {
