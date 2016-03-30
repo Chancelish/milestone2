@@ -13,17 +13,17 @@ router.get('/', function(req, res, next) {
 			if(anError) {
 				console.log(anError)
 			}
-			res.render('til/index', { title: 'Today I Learned', entries: data, name: username});
+			res.render('til/index', { title: 'Today I Learned', entries: data, name: username1});
 		}
 	);
 });
 
 router.get('/new', function(req, res, next) {
 	username1 = req.cookies.username || 'Anonymous';
-	
+	res.render('til/new', {title: "Create New Entry", name : username1});
 });
 
-router.post('/', function(req, res, next) {
+router.post('/til/', function(req, res, next) {
 	username1 = req.cookies.username || 'Anonymous';
 	req.db.driver.execQuery(
 		"INSERT INTO todayIlearned (slug,body,author) VALUES ('?','?','?');",
@@ -49,7 +49,7 @@ router.get('/:id/edit', function(req, res, next) {
 				console.log(anError);
 			}
 			
-			res.render('til/pdate', {title: "Update an Entry", name : username1});
+			res.render('til/update', {title: "Update an Entry", name : username1});
 		}
 	);
 	
@@ -90,7 +90,7 @@ router.get('/:id/delete', function(req, res, next) {
 
 //
 router.get('/:id', function(req, res, next) {
-	var name = req.cookies.username || 'Anonymous';
+	username1 = req.cookies.username || 'Anonymous';
 	req.db.driver.execQuery(
 		'SELECT * FROM todayIlearned WHERE id=?;',
 		[parseInt(req.params.id)],
@@ -98,7 +98,7 @@ router.get('/:id', function(req, res, next) {
 			if(anError) {
 				console.log(anError);
 			}
-			res.render('til/til', {title: "a entry", entry : data, name: name});
+			res.render('til/til', {title: "a entry", entry : data, name: username1});
 		}
 	);
 	
