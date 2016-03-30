@@ -10,13 +10,10 @@ router.get('/', function(req, res, next) {
 	res.render('index', { title: 'Today I Learned' , name : name});
 });
 
-var username = "chance";
-var password = "oneDayL8";
-
 router.get('/login', function(req, res, next) {
 	//res.cookie("Hello", "World");
-	//console.log(req.cookies);
-	res.render('login', { title: 'Login to Today I Learned' });
+	var name = req.cookies.username || 'Anonymous';
+	res.render('login', { title: 'Login to Today I Learned' , name : name});
 });
 
 router.post('/login', function(req, res, next) {
@@ -29,15 +26,17 @@ router.post('/login', function(req, res, next) {
 			if(anErorr) {
 				console.log(anError)
 			}
-			sha1sum.update(req.body.password);
-			var hashed_input = sha1sum.digest('hex');
-			
-			if (hashed_input === data[0].password) {
-				res.cookie('username', data[0].username);
-				res.redirect('/til/');
-			}
 			else {
-				res.redirect('/login');
+				sha1sum.update(req.body.password);
+				var hashed_input = sha1sum.digest('hex');
+			
+				if (hashed_input === data.password) {
+					res.cookie('username', data.username);
+					res.redirect('/til/');
+				}
+				else {
+					res.redirect('/login');
+				}
 			}
 			
 		}
