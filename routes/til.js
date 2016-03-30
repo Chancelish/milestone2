@@ -18,7 +18,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/new', function(req, res, next) {
-  res.render('til/new', {title: "Create new entry"});
+	var name = req.cookies.username || 'Anonymous';
+	res.render('til/new', {title: "Create new entry", name : name});
 });
 
 router.post('/', function(req, res, next) {
