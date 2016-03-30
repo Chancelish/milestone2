@@ -34,7 +34,7 @@ router.post('/', function(req, res, next) {
 			if(anError) {
 				console.log(anError)
 			}
-			res.redirect(303, '/til/index');
+			res.redirect(303, '/til/');
 		}
 	);
 	
@@ -51,15 +51,15 @@ router.get('/:id/edit', function(req, res, next) {
 				console.log(anError);
 			}
 			
-			res.render('til/update', {title: "Update an Entry", name : username1});
+			res.render('til/update', {title: "Update an Entry", entry: data[0], name : username1});
 		}
 	);
 	
 });
 
 router.post('/:id', function(req, res, next) {
-  entries[req.params.id] = req.body;
-  req.db.driver.execQuery(
+	var id = parseInt(req.params.id);
+	req.db.driver.execQuery(
 		"UPDATE todayIlearned SET slug=? ,body=? ,autor=? WHERE id=?;",
 		[req.body.slug, req.body.body, username1, parseInt(req.params.id)],
 		function(anError, data) {
@@ -100,7 +100,7 @@ router.get('/:id', function(req, res, next) {
 			if(anError) {
 				console.log(anError);
 			}
-			res.render('til/til', {title: "a entry", entry : data, name: username1});
+			res.render('til/til', {title: "a entry", entry : data[0], name: username1});
 		}
 	);
 	
