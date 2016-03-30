@@ -18,6 +18,8 @@ router.get('/', function(req, res, next) {
 	);
 });
 
+
+//CREATE
 router.get('/new', function(req, res, next) {
 	username1 = req.cookies.username || 'Anonymous';
 	res.render('til/new', {title: "Create New Entry", name : username1});
