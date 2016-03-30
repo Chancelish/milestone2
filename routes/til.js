@@ -25,16 +25,16 @@ router.get('/new', function(req, res, next) {
 	res.render('til/new', {title: "Create New Entry", name : username1});
 });
 
-router.post('/til/', function(req, res, next) {
+router.post('/', function(req, res, next) {
 	username1 = req.cookies.username || 'Anonymous';
 	req.db.driver.execQuery(
-		"INSERT INTO todayIlearned (slug,body,author) VALUES ('?','?','?');",
+		"INSERT INTO todayIlearned (slug,body,author) VALUES (?,?,?);",
 		[req.body.slug, req.body.body, username1],
 		function(anError, data){
 			if(anError) {
 				console.log(anError)
 			}
-			res.redirect(303, '/til/');
+			res.redirect(303, '/til/index');
 		}
 	);
 	
